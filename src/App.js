@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import humanTracker from './tracker/human';
+import consoleTracker from './tracker/console';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
@@ -13,6 +15,10 @@ import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import CodeIcon from '@material-ui/icons/Code';
 import SwapHorizontalCircleRoundedIcon from '@material-ui/icons/SwapHorizontalCircleRounded';
 import styles from './App.module.css';
+
+
+consoleTracker.start();
+humanTracker.start();
 
 function TabContainer(props) {
   return (
