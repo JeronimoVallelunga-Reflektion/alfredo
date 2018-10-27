@@ -9,13 +9,12 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import FaceIcon from '@material-ui/icons/Face';
+import Avatar from '@material-ui/core/Avatar';
 import NetworkCheckIcon from '@material-ui/icons/NetworkCheck';
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import CodeIcon from '@material-ui/icons/Code';
 import SwapHorizontalCircleRoundedIcon from '@material-ui/icons/SwapHorizontalCircleRounded';
 import styles from './App.module.css';
-
 
 consoleTracker.start();
 humanTracker.start();
@@ -38,7 +37,7 @@ const stylesTheme = theme => ({
     margin: theme.spacing.unit,
     bottom: '64px',
     right: '0',
-  },  
+  },
 });
 
 class App extends Component {
@@ -62,7 +61,10 @@ class App extends Component {
     return (
       <div className={styles.App}>
         <Button variant="fab" color="primary" aria-label="Alfredo" className={classes.button} onClick={this.handleToggle}>
-          <FaceIcon />
+          <Avatar
+            alt="AlfredO"
+            src="https://image.ibb.co/iwJbAq/logo.jpg"
+          />
         </Button>
         <Slide direction="up" in={open} mountOnEnter unmountOnExit>
           <Paper square className={classes.paper}>
