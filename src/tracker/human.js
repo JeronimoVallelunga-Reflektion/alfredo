@@ -1,25 +1,22 @@
 import HumanInput from 'humaninput';
+
 window.__VERSION__ = 'ALFREDO';
-export default (function () {
+const HI = new HumanInput(window); 
+let events = [];
 
-  const HI = new HumanInput(window); 
-  let events = [];
+export default {
+  start: function() {
+    HI.on(HumanInput.defaultListenEvents, (event, whatWasInput) => {
+      events.push({ ...event, whatWasInput });
+    });
+  },
 
-  return {
-    start: function() {
-      HI.on('click', (event) => {
-        events.push({ type: 'click', event });
-        console.log('human', events);
-      });
-    },
+  stop: function() {
+    HI.off();
+    events = [];
+  },
 
-    stop: function() {
-      HI.off();
-      events = [];
-    },
-
-    get: function() {
-      return events;
-    }
+  get: function() {
+    return events;
   }
-})();
+};

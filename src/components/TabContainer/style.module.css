@@ -1,0 +1,15 @@
+.root {
+  padding: 10px;
+  max-width: calc(100% - 10px);
+  height: 300px;
+  max-height: 300px;
+  overflow: scroll;
+}
+
+.row:nth-child(even) {
+  background: #CCC;
+  line-height: 20px;
+}
+.row:nth-child(odd) {
+  background: #FFF;
+}

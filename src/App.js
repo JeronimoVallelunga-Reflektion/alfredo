@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import humanTracker from './tracker/human';
 import consoleTracker from './tracker/console';
-import actionsTracker from './tracker/actions';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
@@ -15,13 +13,12 @@ import NetworkCheckIcon from '@material-ui/icons/NetworkCheck';
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import CodeIcon from '@material-ui/icons/Code';
 import SwapHorizontalCircleRoundedIcon from '@material-ui/icons/SwapHorizontalCircleRounded';
+
+import TabContainer from './components/TabContainer';
+
 import styles from './App.module.css';
 
-consoleTracker.start();
-humanTracker.start();
-actionsTracker.start();
-
-function TabContainer(props) {
+function TabContainerOld(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
       {props.children}
@@ -76,10 +73,10 @@ class App extends Component {
               <Tab label="Human Events" icon={<FingerprintIcon />} />
               <Tab label="Redux Actions" icon={<SwapHorizontalCircleRoundedIcon />} />
             </Tabs>
-            {value === 0 && <TabContainer>Item One</TabContainer>}
-            {value === 1 && <TabContainer>Item Two</TabContainer>}
-            {value === 2 && <TabContainer>Item Three</TabContainer>}
-            {value === 3 && <TabContainer>Item Four</TabContainer>}
+            {value === 0 && <TabContainer tracker={consoleTracker} />}
+            {value === 1 && <TabContainerOld>Item Two</TabContainerOld>}
+            {value === 2 && <TabContainerOld>Item Three</TabContainerOld>}
+            {value === 3 && <TabContainerOld>Item Four</TabContainerOld>}
           </Paper>
         </Slide>        
       </div>
