@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import humanTracker from './tracker/human';
 import consoleTracker from './tracker/console';
+import actionsTracker from './tracker/actions';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
@@ -18,6 +19,7 @@ import styles from './App.module.css';
 
 consoleTracker.start();
 humanTracker.start();
+actionsTracker.start();
 
 function TabContainer(props) {
   return (
