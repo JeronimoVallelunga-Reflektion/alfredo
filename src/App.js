@@ -37,7 +37,7 @@ const stylesTheme = theme => ({
     position: 'fixed',
     margin: theme.spacing.unit,
     bottom: '64px',
-    left: '0',
+    right: '0',
   },  
 });
 
