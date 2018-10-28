@@ -1,8 +1,10 @@
 let events = [];
+let onChange = null;
 
 const appendEvent = ({ detail }) => {
-  events.push({ type: 'redux:action', action: detail });
-  console.log('actions', events);
+  const newEvent = { type: 'redux:action', payload: detail };
+  events.push(newEvent);
+  if (onChange) {  onChange(newEvent); }
 };
 
 export default {
@@ -17,5 +19,9 @@ export default {
 
   get: function() {
     return events;
-  }
+  },
+
+  onChange: function(callback) {
+    onChange = callback;
+  }  
 };

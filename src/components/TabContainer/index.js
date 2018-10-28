@@ -11,7 +11,6 @@ class TabContainer extends Component {
   componentWillMount() {
     const { tracker } = this.props;
     this.setState({ events: tracker.get() });
-    tracker.start();
     tracker.onChange(() => {
       this.setState({ events: tracker.get() });
     });
@@ -21,7 +20,7 @@ class TabContainer extends Component {
     const { events } = this.state;
     return (
       <div className={style.root}>
-        { events.map(event => (<div className={style.row}>{JSON.stringify(event.event)}</div>)) }
+        { events.reverse().map(event => (<div className={style.row}>{JSON.stringify(event)}</div>)) }
       </div>
     );
   }

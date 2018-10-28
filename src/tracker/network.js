@@ -21,6 +21,7 @@ function requestMethodProperties(method, request) {
 }
 
 const HAR = [];
+let onChange = null;
 
 const interceptedFetch = (url, fetchOptions = {}) => {
   const { method: requestMethod = 'GET' } = fetchOptions;
@@ -79,7 +80,6 @@ const interceptedFetch = (url, fetchOptions = {}) => {
         };
 
         HAR.push(entry);
-        console.log('network', HAR);
       });
 
       return promisedResponse;
@@ -96,21 +96,25 @@ export default {
   },
 
   get() {
-    const [{ startedDateTime } = {}] = HAR;
-    const har = {
-      log: {
-        version: '0.1',
-        creator: { name: 'alfredo-network-tracker', version: '0.1' },
-        pages: [{
-          startedDateTime,
-          id: 'alfredo-network-tracker',
-          title: 'alfredo-network-tracker',
-          pageTimings: { }
-        }],
-        entries: HAR,
-      }
-    };
+    // const [{ startedDateTime } = {}] = HAR;
+    // const har = {
+    //   log: {
+    //     version: '0.1',
+    //     creator: { name: 'alfredo-network-tracker', version: '0.1' },
+    //     pages: [{
+    //       startedDateTime,
+    //       id: 'alfredo-network-tracker',
+    //       title: 'alfredo-network-tracker',
+    //       pageTimings: { }
+    //     }],
+    //     entries: HAR,
+    //   }
+    // };
 
-    return har;
-  }
+    return HAR;
+  },
+
+  onChange: function(callback) {
+    onChange = callback;
+  }    
 };

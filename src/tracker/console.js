@@ -4,20 +4,18 @@ const _log = console.log;
 const _error = console.error;
 const _warning = console.warning;
 
-const appendEvent = (method, type) => function(event) {
-  const newEvent = { type, event };
-  events.push(newEvent);
+const appendEvent = (method, type) => function(payload) {
+  const newEvent = { type, payload };
   method.apply(console, arguments);
-  if (onChange) { 
-    onChange(newEvent);
-  }
+  events.push(newEvent);
+  if (onChange) {  onChange(newEvent); }
 };
 
 export default {
   start: function() {
-    console.log = appendEvent(_log, 'log', { events });
-    console.error = appendEvent(_error, 'error', { events });
-    console.warning = appendEvent(_warning, 'warning', { events });    
+    console.log = appendEvent(_log, 'console:log', { events });
+    console.error = appendEvent(_error, 'console:error', { events });
+    console.warning = appendEvent(_warning, 'console:warning', { events });    
   },
 
   stop: function() {

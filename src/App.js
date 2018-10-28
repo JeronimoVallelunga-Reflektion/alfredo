@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import consoleTracker from './tracker/console';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
@@ -14,17 +13,12 @@ import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import CodeIcon from '@material-ui/icons/Code';
 import SwapHorizontalCircleRoundedIcon from '@material-ui/icons/SwapHorizontalCircleRounded';
 
-import TabContainer from './components/TabContainer';
+import TabContainerConsole from './components/TabContainerConsole';
+import TabContainerActions from './components/TabContainerActions';
+import TabContainerHuman from './components/TabContainerHuman';
+import TabContainerNetwork from './components/TabContainerNetwork';
 
 import styles from './App.module.css';
-
-function TabContainerOld(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
 
 const stylesTheme = theme => ({
   button: {
@@ -73,10 +67,10 @@ class App extends Component {
               <Tab label="Human Events" icon={<FingerprintIcon />} />
               <Tab label="Redux Actions" icon={<SwapHorizontalCircleRoundedIcon />} />
             </Tabs>
-            {value === 0 && <TabContainer tracker={consoleTracker} />}
-            {value === 1 && <TabContainerOld>Item Two</TabContainerOld>}
-            {value === 2 && <TabContainerOld>Item Three</TabContainerOld>}
-            {value === 3 && <TabContainerOld>Item Four</TabContainerOld>}
+            {value === 0 && <TabContainerConsole />}
+            {value === 1 && <TabContainerNetwork />}
+            {value === 2 && <TabContainerHuman />}
+            {value === 3 && <TabContainerActions />}
           </Paper>
         </Slide>        
       </div>
