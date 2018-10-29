@@ -40,10 +40,14 @@ const interceptedFetch = (url, fetchOptions = {}) => {
       return Promise.reject(e);
     })
     .then((response) => {
+      const promisedResponse = response.clone();
+      if (url.match(/.[js|css]$/)) {
+        return promisedResponse;
+      }
+
       const timingStop = performance.now();
       const time = timingStop - timingStart;
 
-      const promisedResponse = response.clone();
 
       response.text().then((body) => {
         const entry = {
