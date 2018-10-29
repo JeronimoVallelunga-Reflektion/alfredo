@@ -22,6 +22,8 @@ import TabContainerActions from './components/TabContainerActions';
 import TabContainerHuman from './components/TabContainerHuman';
 import TabContainerNetwork from './components/TabContainerNetwork';
 
+import timetravel from './timetravel';
+
 import styles from './App.module.css';
 
 const stylesTheme = theme => ({
@@ -59,6 +61,10 @@ class App extends Component {
     this.setState({ value });
   };
 
+  handleTimetravel = () => {
+    timetravel.start();
+  }
+
   render() {
     const { classes } = this.props;
     const { open, value } = this.state;
@@ -86,7 +92,7 @@ class App extends Component {
               <IconButton className={classes.button} aria-label="Bug" onClick={this.handleCreate}>
                 <BugIcon />
               </IconButton>
-              <IconButton className={classes.button} aria-label="Play">
+              <IconButton className={classes.button} aria-label="Play" onClick={this.handleTimetravel} >
                 <PlayIcon />
               </IconButton>
             </div>

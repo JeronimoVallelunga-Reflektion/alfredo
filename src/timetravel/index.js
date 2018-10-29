@@ -1,8 +1,13 @@
+import humanTracker from '../tracker/human';
+
 const cursorIcon = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCSB2aWV3Qm94PSIwIDAgMjggMjgiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI4IDI4IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZGRkZGIiBwb2ludHM9IjguMiwyMC45IDguMiw0LjkgMTkuOCwxNi41IDEzLDE2LjUgMTIuNiwxNi42ICIvPjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMTcuMywyMS42IDEzLjcsMjMuMSA5LDEyIDEyLjcsMTAuNSAiLz48cmVjdCB4PSIxMi41IiB5PSIxMy42IiB0cmFuc2Zvcm09Im1hdHJpeCgwLjkyMjEgLTAuMzg3MSAwLjM4NzEgMC45MjIxIC01Ljc2MDUgNi41OTA5KSIgd2lkdGg9IjIiIGhlaWdodD0iOCIvPjxwb2x5Z29uIHBvaW50cz0iOS4yLDcuMyA5LjIsMTguNSAxMi4yLDE1LjYgMTIuNiwxNS41IDE3LjQsMTUuNSAiLz48L3N2Zz4=';
 let cursor = null;
 let snapshots = [];
-let timeouts = [];
-let playing = false;
+
+const initWindow = {
+  width : window.outerWidth,
+  height : window.outerHeight
+};
 
 const createCursor = function() {
   if (!cursor && !document.getElementById('musCursor')) {
@@ -15,6 +20,7 @@ const createCursor = function() {
     node.style.left = "-100%";
     node.style.borderRadius = "32px";
     node.style.backgroundImage = "url(" + cursorIcon + ")";
+    node.style.zIndex = "10000";
     cursor = node;
     document.body.appendChild(node);
   }
@@ -40,6 +46,7 @@ const createClickSnapshot = function(x, y) {
   node.style.borderRadius = "32px";
   node.style.backgroundColor = "red";
   node.style.opacity = 0.2;
+  node.style.zIndex = "10000";
   snapshots.push(node);
   document.body.appendChild(node);
 };
@@ -52,61 +59,53 @@ const destroyClickSnapshot = function() {
 };
 
 const getXCoordinate = function(x) {
-  if (window.outerWidth > this.window.width) {
-    return parseInt(this.window.width * x / window.outerWidth);
+  if (window.outerWidth > initWindow.width) {
+    return parseInt(initWindow.width * x / window.outerWidth);
   }
 
-  return parseInt(window.outerWidth * x / this.window.width);
+  return parseInt(window.outerWidth * x / initWindow.width);
 };
 
 const getYCoordinate = function(y) {
-  if (window.outerHeight > this.window.height) {
-    return parseInt(this.window.height * y / window.outerHeight);
+  if (window.outerHeight > initWindow.height) {
+    return parseInt(initWindow.height * y / window.outerHeight);
   }
 
-  return parseInt(window.outerHeight * y / this.window.height);
+  return parseInt(window.outerHeight * y / initWindow.height);
 };
 
 const playEvent = function(event) {
 
   if (event.type === 'mousemove') {
-    cursor.style.left = getXCoordinate(event.payload.x) + "px";
-    cursor.style.top = getYCoordinate(event.payload.y) + "px";
+    cursor.style.left = getXCoordinate(event.x) + "px";
+    cursor.style.top = getYCoordinate(event.y) + "px";
 
   } else if (event.type === 'click') {
-    createClickSnapshot(event.payload.x, event.payload.y);
-
+    createClickSnapshot(event.x, event.y);
   }
 };
-
-const stopEvent = function() {
-  timeouts = [];
-  playing = false;  
-}
 
 const stop = function() {
   destroyCursor();
   destroyClickSnapshot();
-  stopEvent();
 };
 
 export default {
-  start: function(events) {
-		if (playing) return;
+  start: function() {
+    const events = humanTracker.get();
 
 		createCursor();
 
     const init = events[0];
 		for (let pos = 0; pos < events.length; pos++) {
-
-			timeouts.push(setTimeout(function(pos) {
-				playEvent(events[pos]);
-				if (pos === events.length - 1) {
+      const last = (pos === events.length - 1);
+			setTimeout((position, event, last) => {
+				playEvent(event);
+				if (last) {
           stop();
 				}
-			}, events[pos].timestamp - init.timestamp), pos);
-		};
+      }, events[pos].timestamp - init.timestamp, pos, events[pos], last);
 
-    this.playing = true;
+		};
   },
 };
