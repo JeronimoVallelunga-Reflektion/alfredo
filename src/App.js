@@ -15,6 +15,8 @@ import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import CodeIcon from '@material-ui/icons/Code';
 import SwapHorizontalCircleRoundedIcon from '@material-ui/icons/SwapHorizontalCircleRounded';
 
+import { create as createIssue } from './services/issues';
+
 import TabContainerConsole from './components/TabContainerConsole';
 import TabContainerActions from './components/TabContainerActions';
 import TabContainerHuman from './components/TabContainerHuman';
@@ -41,6 +43,13 @@ class App extends Component {
     value: 0,
   };
 
+  handleCreate = () => {
+    createIssue()
+      .then(() => {
+        alert('Issue created!');
+      });
+  };
+
   handleToggle = () => {
     const value = this.state.open ? 0 : this.state.value;
     this.setState(state => ({ open: !state.open, value }));
@@ -48,7 +57,7 @@ class App extends Component {
 
   handleChangeTab = (event, value) => {
     this.setState({ value });
-  };  
+  };
 
   render() {
     const { classes } = this.props;
@@ -74,7 +83,7 @@ class App extends Component {
             {value === 2 && <TabContainerHuman />}
             {value === 3 && <TabContainerActions />}
             <div className={styles.actions}>
-              <IconButton className={classes.button} aria-label="Bug">
+              <IconButton className={classes.button} aria-label="Bug" onClick={this.handleCreate}>
                 <BugIcon />
               </IconButton>
               <IconButton className={classes.button} aria-label="Play">
@@ -82,7 +91,7 @@ class App extends Component {
               </IconButton>
             </div>
           </Paper>
-        </Slide>        
+        </Slide>
       </div>
     );
   }
