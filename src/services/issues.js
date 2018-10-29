@@ -5,10 +5,14 @@ import networkTracker from '../tracker/network';
 
 export const create = () => {
   const issue = {
-    actions: actionsTracker.serialize(),
-    console: consoleTracker.serialize(),
-    human: humanTracker.serialize(),
-    network: networkTracker.serialize(),
+    version: window.rfk_portal_version(),
+    timestamp: Date.now(),
+    data: {
+      actions: actionsTracker.serialize(),
+      console: consoleTracker.serialize(),
+      human: humanTracker.serialize(),
+      network: networkTracker.serialize(),
+    },
   };
 
   return new Promise((resolve) => {
