@@ -102,7 +102,6 @@ export default {
           _transferSize: data.response.body.length,
           content: {
             size: data.response.body.length,
-            mimeType: data.response.headers['content-type'],
             text: data.response.body,
           },
           redirectURL: '',
