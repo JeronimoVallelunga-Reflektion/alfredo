@@ -52,8 +52,8 @@ const createClickSnapshot = function(x, y) {
 };
 
 const destroyClickSnapshot = function() {
-  while (snapshots.length > 0) {
-    snapshots[0].remove();
+  for(let pos = 0; pos < snapshots.length; pos++) {
+    snapshots[pos].remove();
   }
   snapshots = [];
 };
@@ -92,6 +92,7 @@ const stop = function() {
 
 export default {
   start: function() {
+    stop();
     const events = humanTracker.serialize().slice(0);
 
 		createCursor();
@@ -101,9 +102,9 @@ export default {
       const last = (pos === events.length - 1);
 			setTimeout((position, event, last) => {
 				playEvent(event);
-				if (last) {
-          stop();
-				}
+				// if (last) {
+        //   stop();
+				// }
       }, events[pos].timestamp - init.timestamp, pos, events[pos], last);
 
 		};

@@ -10,7 +10,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import PlayIcon from '@material-ui/icons/PlayArrow';
 import BugIcon from '@material-ui/icons/BugReport';
-import NetworkCheckIcon from '@material-ui/icons/NetworkCheck';
+// import NetworkCheckIcon from '@material-ui/icons/NetworkCheck';
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import CodeIcon from '@material-ui/icons/Code';
 import SwapHorizontalCircleRoundedIcon from '@material-ui/icons/SwapHorizontalCircleRounded';
@@ -20,7 +20,7 @@ import { create as createIssue } from './services/issues';
 import TabContainerConsole from './components/TabContainerConsole';
 import TabContainerActions from './components/TabContainerActions';
 import TabContainerHuman from './components/TabContainerHuman';
-import TabContainerNetwork from './components/TabContainerNetwork';
+// import TabContainerNetwork from './components/TabContainerNetwork';
 
 import timetravel from './timetravel';
 
@@ -80,15 +80,15 @@ class App extends Component {
         <Slide direction="up" in={open} mountOnEnter unmountOnExit>
           <Paper square className={classes.paper}>
             <Tabs value={value} onChange={this.handleChangeTab}>
-              <Tab label="Console" icon={<CodeIcon />} />
-              <Tab label="Network" icon={<NetworkCheckIcon />} />
               <Tab label="Human Events" icon={<FingerprintIcon />} />
               <Tab label="Redux Actions" icon={<SwapHorizontalCircleRoundedIcon />} />
+              <Tab label="Console" icon={<CodeIcon />} />
+              {/* <Tab label="Network" icon={<NetworkCheckIcon />} /> */}
             </Tabs>
-            {value === 0 && <TabContainerConsole />}
-            {value === 1 && <TabContainerNetwork />}
-            {value === 2 && <TabContainerHuman />}
-            {value === 3 && <TabContainerActions />}
+            {value === 0 && <TabContainerHuman />}
+            {value === 1 && <TabContainerActions />}
+            {value === 2 && <TabContainerConsole />}
+            {/* {value === 1 && <TabContainerNetwork />} */}
             <div className={styles.actions}>
               <IconButton className={classes.button} aria-label="Bug" onClick={this.handleCreate}>
                 <BugIcon />
