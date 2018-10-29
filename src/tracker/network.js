@@ -62,10 +62,11 @@ const interceptedFetch = (url, fetchOptions = {}) => {
         };
 
         requests.push(entry);
+        onChange && onChange(entry);
       });
 
       return promisedResponse;
-    })
+    });
 };
 
 export default {
