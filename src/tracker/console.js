@@ -4,9 +4,9 @@ const _log = console.log;
 const _error = console.error;
 const _warning = console.warning;
 
-const appendEvent = (method, type) => function(payload) {
-  const newEvent = { type, payload };
-  method.apply(console, arguments);
+const appendEvent = (method, type) => function(...args) {
+  const newEvent = { type, payload: args, timestamp: Date.now() };
+  method.apply(console, args);
   events.push(newEvent);
   if (onChange) {  onChange(newEvent); }
 };
@@ -15,7 +15,7 @@ export default {
   start: function() {
     console.log = appendEvent(_log, 'console:log', { events });
     console.error = appendEvent(_error, 'console:error', { events });
-    console.warning = appendEvent(_warning, 'console:warning', { events });    
+    console.warning = appendEvent(_warning, 'console:warning', { events });
   },
 
   stop: function() {
@@ -26,7 +26,14 @@ export default {
   },
 
   get: function() {
-    return events;
+    return events.filter((event) => event.payload[0] !== '%c prev state' && event.payload[0] !== '%c next state');
+  },
+
+  serialize: function() {
+    return this.get().filter(event => event.type !== 'console:log').map(({ timestamp, payload }) => ({
+      timestamp,
+      message: payload.join(' '),
+    }));
   },
 
   onChange: function(callback) {

@@ -20,8 +20,8 @@ function requestMethodProperties(method, request) {
   }
 }
 
-const HAR = [];
 let onChange = null;
+const requests = [];
 
 const interceptedFetch = (url, fetchOptions = {}) => {
   const { method: requestMethod = 'GET' } = fetchOptions;
@@ -47,39 +47,17 @@ const interceptedFetch = (url, fetchOptions = {}) => {
 
       response.text().then((body) => {
         const entry = {
-          startedDateTime: new Date(startTime).toISOString(),
+          startTime,
           time,
-          request: {
-            method: requestMethod,
-            url: response.url,
-            cookies: [],
-            headers: buildHarHeaders(request.headers),
-            httpVersion: 'HTTP/2.0',
-            queryString: [],
-            headersSize: -1,
-            bodySize: -1,
-            ...requestMethodProperties(requestMethod, fetchOptions),
-          },
+          method: requestMethod,
+          request,
           response: {
-            status: response.status,
-            statusText: response.statusText,
-            httpVersion: 'HTTP/2.0',
-            cookies: [],
-            headers: buildHarHeaders(response.headers),
-            _transferSize: body.length,
-            content: {
-              size: body.length,
-              mimeType: response.headers['content-type'],
-              text: body,
-            },
-            redirectURL: '',
-            headersSize: -1,
-            bodySize: -1
+            ...response,
+            body
           },
-          cache: {}
         };
 
-        HAR.push(entry);
+        requests.push(entry);
       });
 
       return promisedResponse;
@@ -96,25 +74,64 @@ export default {
   },
 
   get() {
-    // const [{ startedDateTime } = {}] = HAR;
-    // const har = {
-    //   log: {
-    //     version: '0.1',
-    //     creator: { name: 'alfredo-network-tracker', version: '0.1' },
-    //     pages: [{
-    //       startedDateTime,
-    //       id: 'alfredo-network-tracker',
-    //       title: 'alfredo-network-tracker',
-    //       pageTimings: { }
-    //     }],
-    //     entries: HAR,
-    //   }
-    // };
-
-    return HAR;
+    return requests;
   },
 
-  onChange: function(callback) {
+  serialize() {
+    const entries = requests.map((data) => {
+      return {
+        startedDateTime: new Date(data.startTime).toISOString(),
+        time: data.time,
+        request: {
+          method: data.request.method,
+          url: data.request.url,
+          cookies: [],
+          headers: buildHarHeaders(data.request.headers),
+          httpVersion: 'HTTP/2.0',
+          queryString: [],
+          headersSize: -1,
+          bodySize: -1,
+          ...requestMethodProperties(data.request.method, data.request),
+        },
+        response: {
+          status: data.response.status,
+          statusText: data.response.statusText,
+          httpVersion: 'HTTP/2.0',
+          cookies: [],
+          headers: buildHarHeaders(data.response.headers),
+          _transferSize: data.response.body.length,
+          content: {
+            size: data.response.body.length,
+            mimeType: data.response.headers['content-type'],
+            text: data.response.body,
+          },
+          redirectURL: '',
+          headersSize: -1,
+          bodySize: -1
+        },
+        cache: {}
+      };
+    });
+
+    const [{ startedDateTime } = {}] = entries;
+    const har = {
+      log: {
+        version: '0.1',
+        creator: { name: 'alfredo-network-tracker', version: '0.1' },
+        pages: [{
+          startedDateTime,
+          id: 'alfredo-network-tracker',
+          title: 'alfredo-network-tracker',
+          pageTimings: { }
+        }],
+        entries,
+      }
+    };
+
+    return har;
+  },
+
+  onChange(callback) {
     onChange = callback;
-  }    
+  }
 };

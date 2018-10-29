@@ -2,7 +2,7 @@ let events = [];
 let onChange = null;
 
 const appendEvent = ({ detail }) => {
-  const newEvent = { type: 'redux:action', payload: detail };
+  const newEvent = { type: 'redux:action', payload: detail, timestamp: Date.now() };
   events.push(newEvent);
   if (onChange) {  onChange(newEvent); }
 };
@@ -21,7 +21,11 @@ export default {
     return events;
   },
 
+  serialize: function() {
+    return events;
+  },
+
   onChange: function(callback) {
     onChange = callback;
-  }  
+  }
 };
