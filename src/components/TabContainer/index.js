@@ -17,9 +17,9 @@ class TabContainer extends Component {
 
   componentWillMount() {
     const { tracker } = this.props;
-    this.setState({ events: tracker.serialize() });
+    this.setState({ events: tracker.serialize() || [] });
     tracker.onChange(() => {
-      this.setState({ events: tracker.serialize() });
+      this.setState({ events: tracker.serialize() || [] });
     });
   }
 

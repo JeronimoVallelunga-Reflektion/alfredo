@@ -131,7 +131,7 @@ export default {
       }
     };
 
-    return har;
+    return har.entries;
   },
 
   onChange(callback) {

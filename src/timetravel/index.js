@@ -41,8 +41,8 @@ const createClickSnapshot = function(x, y) {
   node.style.position = "absolute";
   node.style.width = "32px";
   node.style.height = "32px";
-  node.style.top = (x + top) + "px";
-  node.style.left = (y + left) + "px";
+  node.style.top = (y + top) + "px";
+  node.style.left = (x + left) + "px";
   node.style.borderRadius = "32px";
   node.style.backgroundColor = "red";
   node.style.opacity = 0.2;
@@ -92,7 +92,7 @@ const stop = function() {
 
 export default {
   start: function() {
-    const events = humanTracker.serialize();
+    const events = humanTracker.serialize().slice(0);
 
 		createCursor();
 
