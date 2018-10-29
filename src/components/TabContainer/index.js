@@ -20,7 +20,7 @@ class TabContainer extends Component {
     const { events } = this.state;
     return (
       <div className={style.root}>
-        { events.reverse().map(event => (<div className={style.row}>{JSON.stringify(event)}</div>)) }
+        { events.reverse().slice(0, 50).map(event => (<div className={style.row}>{JSON.stringify(event)}</div>)) }
       </div>
     );
   }
