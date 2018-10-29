@@ -6,8 +6,10 @@ import Slide from '@material-ui/core/Slide';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import PlayIcon from '@material-ui/icons/PlayArrow';
+import BugIcon from '@material-ui/icons/BugReport';
 import NetworkCheckIcon from '@material-ui/icons/NetworkCheck';
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import CodeIcon from '@material-ui/icons/Code';
@@ -71,6 +73,14 @@ class App extends Component {
             {value === 1 && <TabContainerNetwork />}
             {value === 2 && <TabContainerHuman />}
             {value === 3 && <TabContainerActions />}
+            <div className={styles.actions}>
+              <IconButton className={classes.button} aria-label="Bug">
+                <BugIcon />
+              </IconButton>
+              <IconButton className={classes.button} aria-label="Play">
+                <PlayIcon />
+              </IconButton>
+            </div>
           </Paper>
         </Slide>        
       </div>
