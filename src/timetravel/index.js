@@ -92,7 +92,7 @@ const stop = function() {
 
 export default {
   start: function() {
-    const events = humanTracker.get();
+    const events = humanTracker.serialize();
 
 		createCursor();
 

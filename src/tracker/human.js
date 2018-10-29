@@ -41,7 +41,7 @@ export default {
         default:
       }
 
-      return { type: event.type, ...data };
+      return { type: event.type, timestamp: event.timestamp, ...data };
     });
   },
 
