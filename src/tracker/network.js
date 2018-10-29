@@ -116,22 +116,22 @@ export default {
       };
     });
 
-    const [{ startedDateTime } = {}] = entries;
-    const har = {
-      log: {
-        version: '0.1',
-        creator: { name: 'alfredo-network-tracker', version: '0.1' },
-        pages: [{
-          startedDateTime,
-          id: 'alfredo-network-tracker',
-          title: 'alfredo-network-tracker',
-          pageTimings: { }
-        }],
-        entries,
-      }
-    };
+    // const [{ startedDateTime } = {}] = entries;
+    // const har = {
+    //   log: {
+    //     version: '0.1',
+    //     creator: { name: 'alfredo-network-tracker', version: '0.1' },
+    //     pages: [{
+    //       startedDateTime,
+    //       id: 'alfredo-network-tracker',
+    //       title: 'alfredo-network-tracker',
+    //       pageTimings: { }
+    //     }],
+    //     entries,
+    //   }
+    // };
 
-    return har.entries;
+    return entries;
   },
 
   onChange(callback) {
