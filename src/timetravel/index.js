@@ -75,7 +75,7 @@ const getYCoordinate = function(y) {
 };
 
 const playEvent = function(event) {
-
+  console.log('event', event);
   if (event.type === 'mousemove') {
     cursor.style.left = getXCoordinate(event.x) + "px";
     cursor.style.top = getYCoordinate(event.y) + "px";
